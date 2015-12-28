@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="create-table-user" author="shun-tak">
+        <createTable tableName="user">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="datetime" defaultValue="2000-01-01 00:00:00">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="datetime" defaultValue="2016-01-01 00:00:00">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <modifySql dbms="mysql">
+            <regExpReplace replace="'2000-01-01 00:00:00'" with="CURRENT_TIMESTAMP"/>
+            <regExpReplace replace="'2016-01-01 00:00:00'" with="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"/>
+            <append value=" engine innodb" />
+        </modifySql>
+    </changeSet>
+
+    <changeSet id="create-table-master_common" author="shun-tak">
+        <createTable tableName="master_common">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="key" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="text"/>
+            <column name="created_at" type="datetime" defaultValue="2000-01-01 00:00:00">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="datetime" defaultValue="2016-01-01 00:00:00">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <modifySql dbms="mysql">
+            <regExpReplace replace="'2000-01-01 00:00:00'" with="CURRENT_TIMESTAMP"/>
+            <regExpReplace replace="'2016-01-01 00:00:00'" with="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"/>
+            <append value=" engine innodb" />
+        </modifySql>
+    </changeSet>
+</databaseChangeLog>

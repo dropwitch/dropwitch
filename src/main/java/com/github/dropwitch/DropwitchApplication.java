@@ -1,6 +1,8 @@
 package com.github.dropwitch;
 
 import io.dropwizard.Application;
+import io.dropwizard.db.DataSourceFactory;
+import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
@@ -11,6 +13,12 @@ public class DropwitchApplication extends Application<DropwitchConfiguration> {
 
     @Override
     public void initialize(Bootstrap<DropwitchConfiguration> bootstrap) {
+        bootstrap.addBundle(new MigrationsBundle<DropwitchConfiguration>() {
+            @Override
+            public DataSourceFactory getDataSourceFactory(DropwitchConfiguration configuration) {
+                return configuration.getDataSourceFactory();
+            }
+        });
     }
 
     @Override
