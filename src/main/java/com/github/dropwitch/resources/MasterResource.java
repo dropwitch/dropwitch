@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Path("/master")
+@Produces({MediaType.APPLICATION_JSON, "application/x-msgpack"})
+@Timed
 public class MasterResource {
     private MasterCommonDao masterCommonDao;
     private Optional<MasterResponseData> data;
@@ -22,8 +24,6 @@ public class MasterResource {
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Timed
     @UnitOfWork
     public ResponseBody get() {
         return new ResponseBody(this.data.orElseGet(() -> {
@@ -35,8 +35,6 @@ public class MasterResource {
 
     @DELETE
     @Path("/cache")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Timed
     public ResponseBody deleteCache() {
         this.data = Optional.empty();
         return new ResponseBody(null);

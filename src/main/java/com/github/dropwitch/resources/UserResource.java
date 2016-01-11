@@ -11,6 +11,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 @Path("/user")
+@Produces({MediaType.APPLICATION_JSON, "application/x-msgpack"})
+@Timed
 public class UserResource {
     private UserDao userDao;
 
@@ -20,8 +22,6 @@ public class UserResource {
 
     @GET
     @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Timed
     @UnitOfWork
     public ResponseBody get(@PathParam("id") Long id) {
         User user = userDao.findById(id);
@@ -30,9 +30,7 @@ public class UserResource {
 
     @POST
     @Path("/register")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Timed
+    @Consumes({MediaType.APPLICATION_JSON, "application/x-msgpack"})
     @UnitOfWork
     public ResponseBody register(UserRegisterRequestData data) {
         User user = userDao.create(data.getName());
