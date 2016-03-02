@@ -2,6 +2,9 @@
 
 JSON API server using [Dropwizard](http://www.dropwizard.io/)
 
+MessagePack (msgpack) request/response are also available.
+You can check msgpack request using [sample request code](https://github.com/shun-tak/msgpack-io).
+
 ## Environments
 
 - JDK 8
