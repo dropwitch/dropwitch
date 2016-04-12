@@ -2,7 +2,7 @@ package com.github.dropwitch.resources;
 
 import com.codahale.metrics.annotation.Timed;
 import com.github.dropwitch.api.ResponseBody;
-import com.github.dropwitch.api.data.UserRegisterRequestData;
+import com.github.dropwitch.api.user.UserRegisterRequestData;
 import com.github.dropwitch.entity.User;
 import com.github.dropwitch.entity.dao.UserDao;
 import io.dropwizard.hibernate.UnitOfWork;
@@ -25,7 +25,11 @@ public class UserResource {
     @UnitOfWork
     public ResponseBody get(@PathParam("id") Long id) {
         User user = userDao.findById(id);
-        return new ResponseBody(user);
+        return ResponseBody
+                .builder()
+                .result(true)
+                .data(user)
+                .build();
     }
 
     @POST
@@ -34,6 +38,10 @@ public class UserResource {
     @UnitOfWork
     public ResponseBody register(UserRegisterRequestData data) {
         User user = userDao.create(data.getName());
-        return new ResponseBody(user);
+        return ResponseBody
+                .builder()
+                .result(true)
+                .data(user)
+                .build();
     }
 }
