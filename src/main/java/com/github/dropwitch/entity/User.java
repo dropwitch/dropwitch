@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Builder
 @NoArgsConstructor
@@ -19,20 +21,24 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
 
     @Basic
-    @Column(name = "name", nullable = false, length = 255)
+    @Column(name = "name")
+    @NotNull
+    @Size(max = 255)
     private String name;
 
     @Basic
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
+    @NotNull
     @JsonSerialize(using=DateTimeSerializer.class)
     private DateTime createdAt;
 
     @Basic
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at")
+    @NotNull
     @JsonSerialize(using=DateTimeSerializer.class)
     private DateTime updatedAt;
 }

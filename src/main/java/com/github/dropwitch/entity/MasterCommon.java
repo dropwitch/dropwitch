@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Size;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,24 +19,29 @@ import javax.persistence.*;
 @Table(name = "master_common")
 public class MasterCommon {
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
 
     @Basic
-    @Column(name = "key", nullable = false, length = 255)
+    @Column(name = "key")
+    @NotNull
+    @Size(max = 255)
     private String key;
 
     @Basic
-    @Column(name = "value", nullable = true, length = -1)
+    @Column(name = "value")
+    @Null
     private String value;
 
     @Basic
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
+    @NotNull
     @JsonSerialize(using=DateTimeSerializer.class)
     private DateTime createdAt;
 
     @Basic
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at")
+    @NotNull
     @JsonSerialize(using=DateTimeSerializer.class)
     private DateTime updatedAt;
 }
