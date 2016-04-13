@@ -2,6 +2,7 @@ package com.github.dropwitch;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import com.github.dropwitch.core.DropwitchMediaType;
 import com.github.dropwitch.entity.MasterCommon;
 import com.github.dropwitch.entity.User;
 import com.github.dropwitch.entity.dao.MasterCommonDao;
@@ -23,8 +24,8 @@ import javax.ws.rs.ext.Provider;
 
 public class DropwitchApplication extends Application<DropwitchConfiguration> {
     @Provider
-    @Consumes("application/x-msgpack")
-    @Produces("application/x-msgpack")
+    @Consumes(DropwitchMediaType.APPLICATION_MSGPACK)
+    @Produces(DropwitchMediaType.APPLICATION_MSGPACK)
     public static class JacksonMessagePackProvider extends JacksonJsonProvider {
         public JacksonMessagePackProvider() {
             super(new ObjectMapper(new MessagePackFactory()));

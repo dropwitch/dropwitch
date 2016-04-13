@@ -3,14 +3,14 @@ package com.github.dropwitch.resources;
 import com.codahale.metrics.annotation.Timed;
 import com.github.dropwitch.api.ResponseBody;
 import com.github.dropwitch.api.master.MasterResponseData;
+import com.github.dropwitch.core.DropwitchMediaType;
 import com.github.dropwitch.entity.dao.MasterCommonDao;
 import io.dropwizard.hibernate.UnitOfWork;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 
 @Path("/master")
-@Produces({MediaType.APPLICATION_JSON, "application/x-msgpack"})
+@Produces({DropwitchMediaType.APPLICATION_JSON, DropwitchMediaType.APPLICATION_MSGPACK})
 @Timed
 public class MasterResource {
     private MasterCommonDao masterCommonDao;
