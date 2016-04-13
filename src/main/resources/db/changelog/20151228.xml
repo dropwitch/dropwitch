@@ -8,46 +8,52 @@
 
     <changeSet id="create-table-user" author="shun-tak">
         <createTable tableName="user">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="name" type="varchar(255)">
+            <column name="name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="created_at" type="datetime" defaultValue="2000-01-01 00:00:00">
+            <column name="created_at" type="DATETIME(6)" defaultValue="2000-01-01 00:00:00.000000">
                 <constraints nullable="false"/>
             </column>
-            <column name="updated_at" type="datetime" defaultValue="2016-01-01 00:00:00">
+            <column name="updated_at" type="DATETIME(6)" defaultValue="2016-01-01 00:00:00.000000">
                 <constraints nullable="false"/>
             </column>
         </createTable>
         <modifySql dbms="mysql">
-            <regExpReplace replace="'2000-01-01 00:00:00'" with="CURRENT_TIMESTAMP"/>
-            <regExpReplace replace="'2016-01-01 00:00:00'" with="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"/>
-            <append value=" engine innodb" />
+            <regExpReplace replace="'2000-01-01 00:00:00.000000'" with="CURRENT_TIMESTAMP(6)"/>
+            <regExpReplace replace="'2016-01-01 00:00:00.000000'" with="CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)"/>
+            <append value=" ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPRESSED" />
         </modifySql>
+    </changeSet>
+
+    <changeSet id="create-index-user" author="shun-tak">
+        <createIndex tableName="user" indexName="uq-name" unique="true">
+            <column name="name"/>
+        </createIndex>
     </changeSet>
 
     <changeSet id="create-table-master_common" author="shun-tak">
         <createTable tableName="master_common">
-            <column name="id" type="int" autoIncrement="true">
+            <column name="id" type="INT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="key" type="varchar(255)">
+            <column name="key" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="value" type="text"/>
-            <column name="created_at" type="datetime" defaultValue="2000-01-01 00:00:00">
+            <column name="value" type="TEXT"/>
+            <column name="created_at" type="DATETIME(6)" defaultValue="2000-01-01 00:00:00.000000">
                 <constraints nullable="false"/>
             </column>
-            <column name="updated_at" type="datetime" defaultValue="2016-01-01 00:00:00">
+            <column name="updated_at" type="DATETIME(6)" defaultValue="2016-01-01 00:00:00.000000">
                 <constraints nullable="false"/>
             </column>
         </createTable>
         <modifySql dbms="mysql">
-            <regExpReplace replace="'2000-01-01 00:00:00'" with="CURRENT_TIMESTAMP"/>
-            <regExpReplace replace="'2016-01-01 00:00:00'" with="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"/>
-            <append value=" engine innodb" />
+            <regExpReplace replace="'2000-01-01 00:00:00.000000'" with="CURRENT_TIMESTAMP(6)"/>
+            <regExpReplace replace="'2016-01-01 00:00:00.000000'" with="CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)"/>
+            <append value=" ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPRESSED" />
         </modifySql>
     </changeSet>
 </databaseChangeLog>

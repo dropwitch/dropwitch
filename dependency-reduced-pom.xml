@@ -60,6 +60,14 @@
       </plugin>
     </plugins>
   </build>
+  <dependencies>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.16.8</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
   <properties>
     <dropwizard.version>0.9.1</dropwizard.version>
     <java.version>1.8</java.version>
