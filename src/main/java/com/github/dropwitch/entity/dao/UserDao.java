@@ -15,11 +15,8 @@ public class UserDao extends AbstractDAO<User> {
         User user = User
                 .builder()
                 .name(name)
-                .createdAt(DateTime.now())
-                .updatedAt(DateTime.now())
                 .build();
-        Long id = (Long) currentSession().save(user);
-        user.setId(id);
+        currentSession().save(user);
         return user;
     }
 

@@ -2,15 +2,13 @@ package com.github.dropwitch.entity;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.joda.ser.DateTimeSerializer;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,6 +18,7 @@ import javax.validation.constraints.Size;
 public class MasterCommon {
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Basic
@@ -35,13 +34,13 @@ public class MasterCommon {
 
     @Basic
     @Column(name = "created_at")
-    @NotNull
-    @JsonSerialize(using=DateTimeSerializer.class)
+    @Generated(value = GenerationTime.INSERT)
+    @JsonSerialize(using = DateTimeSerializer.class)
     private DateTime createdAt;
 
     @Basic
     @Column(name = "updated_at")
-    @NotNull
-    @JsonSerialize(using=DateTimeSerializer.class)
+    @Generated(value = GenerationTime.ALWAYS)
+    @JsonSerialize(using = DateTimeSerializer.class)
     private DateTime updatedAt;
 }
