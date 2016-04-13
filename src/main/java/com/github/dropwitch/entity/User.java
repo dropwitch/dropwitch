@@ -1,5 +1,7 @@
 package com.github.dropwitch.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.joda.ser.DateTimeSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,9 +28,11 @@ public class User {
 
     @Basic
     @Column(name = "created_at", nullable = false)
+    @JsonSerialize(using=DateTimeSerializer.class)
     private DateTime createdAt;
 
     @Basic
     @Column(name = "updated_at", nullable = false)
+    @JsonSerialize(using=DateTimeSerializer.class)
     private DateTime updatedAt;
 }
