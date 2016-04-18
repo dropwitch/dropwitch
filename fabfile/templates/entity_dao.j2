@@ -1,0 +1,35 @@
+package {{ env.java_package_entity_dao }};
+
+import com.github.dropwitch.entity.{{ table.class_name }};
+import io.dropwizard.hibernate.AbstractDAO;
+import org.hibernate.SessionFactory;
+
+import java.util.List;
+
+public class {{ table.class_name }}Dao extends AbstractDAO<{{ table.class_name }}> {
+    public {{ table.class_name }}Dao(SessionFactory factory) {
+        super(factory);
+    }
+
+    public {{ table.class_name }} create() {
+        {{ table.class_name }} {{ table.name }} = {{ table.class_name }}
+                .builder()
+                .build();
+        currentSession().save({{ table.name }});
+        return {{ table.name }};
+    }
+
+    public void update({{ table.class_name }} {{ table.name }}) {
+        currentSession().update({{ table.name }});
+    }
+
+    public void delete({{ table.class_name }} {{ table.name }}) {
+        currentSession().delete({{ table.name }});
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<{{ table.class_name }}> findAll() {
+        return criteria().list();
+    }
+}
+
