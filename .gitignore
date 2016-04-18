@@ -42,6 +42,7 @@ gradle-app.setting
 
 # Log
 *.log
+logs
 
 # Documents
 docs

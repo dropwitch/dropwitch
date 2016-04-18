@@ -21,3 +21,20 @@ database:
 
   # whether or not idle connections should be validated
   checkConnectionWhileIdle: false
+
+logging:
+  level: INFO
+
+  loggers:
+    "com.github.dropwitch": DEBUG
+
+    # Enables the SQL query log and redirect it to a separate file
+    "org.hibernate.SQL":
+      level: DEBUG
+      # This line stops org.hibernate.SQL (or anything under it) from using the root logger
+      additive: false
+      appenders:
+        - type: file
+          currentLogFilename: ./logs/sql.log
+          archivedLogFilenamePattern: ./logs/sql-%d.log
+          archivedFileCount: 5
