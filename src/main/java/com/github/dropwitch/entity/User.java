@@ -22,21 +22,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Basic
     @Column(name = "name")
     @NotNull
     @Size(max = 255)
     private String name;
 
-    @Basic
     @Column(name = "created_at")
     @Generated(value = GenerationTime.INSERT)
     @JsonSerialize(using = DateTimeSerializer.class)
     private DateTime createdAt;
 
-    @Basic
     @Column(name = "updated_at")
     @Generated(value = GenerationTime.ALWAYS)
     @JsonSerialize(using = DateTimeSerializer.class)
     private DateTime updatedAt;
+
 }
