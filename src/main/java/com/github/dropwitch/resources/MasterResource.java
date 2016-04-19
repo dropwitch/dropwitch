@@ -1,5 +1,6 @@
 package com.github.dropwitch.resources;
 
+import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
 import com.github.dropwitch.api.ResponseBody;
 import com.github.dropwitch.api.master.MasterResponseData;
@@ -11,7 +12,6 @@ import javax.ws.rs.*;
 
 @Path("/master")
 @Produces({DropwitchMediaType.APPLICATION_JSON, DropwitchMediaType.APPLICATION_MSGPACK})
-@Timed
 public class MasterResource {
     private MasterCommonDao masterCommonDao;
     private MasterResponseData data;
@@ -23,6 +23,8 @@ public class MasterResource {
 
     @GET
     @UnitOfWork
+    @Timed
+    @ExceptionMetered
     public ResponseBody get() {
         if (data == null) {
             data = MasterResponseData
@@ -39,6 +41,8 @@ public class MasterResource {
 
     @DELETE
     @Path("/cache")
+    @Timed
+    @ExceptionMetered
     public ResponseBody deleteCache() {
         data = null;
         return ResponseBody

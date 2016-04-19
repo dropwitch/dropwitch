@@ -1,5 +1,6 @@
 package com.github.dropwitch.resources;
 
+import com.codahale.metrics.annotation.ExceptionMetered;
 import com.codahale.metrics.annotation.Timed;
 import com.github.dropwitch.api.ResponseBody;
 import com.github.dropwitch.api.user.UserRegisterRequestData;
@@ -12,7 +13,6 @@ import javax.ws.rs.*;
 
 @Path("/user")
 @Produces({DropwitchMediaType.APPLICATION_JSON, DropwitchMediaType.APPLICATION_MSGPACK})
-@Timed
 public class UserResource {
     private UserDao userDao;
 
@@ -23,6 +23,8 @@ public class UserResource {
     @GET
     @Path("/{id}")
     @UnitOfWork
+    @Timed
+    @ExceptionMetered
     public ResponseBody get(@PathParam("id") Long id) {
         User user = userDao.findById(id);
         return ResponseBody
@@ -36,6 +38,8 @@ public class UserResource {
     @Path("/register")
     @Consumes({DropwitchMediaType.APPLICATION_JSON, DropwitchMediaType.APPLICATION_MSGPACK})
     @UnitOfWork
+    @Timed
+    @ExceptionMetered
     public ResponseBody register(UserRegisterRequestData data) {
         User user = userDao.create(data.getName());
         return ResponseBody
