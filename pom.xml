@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.dropwitch</groupId>
-    <artifactId>dropwitch-web</artifactId>
+    <artifactId>dropwitch</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
