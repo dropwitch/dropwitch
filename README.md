@@ -1,15 +1,21 @@
-# dropwitch
+# Dropwitch
 
-JSON API server using [Dropwizard](http://www.dropwizard.io/)
+Dropwitch is a template project to construct a RESTful API server.
+Dropwitch is powered by [Dropwizard](http://www.dropwizard.io/)
 
-MessagePack (msgpack) request/response are also available.
-You can check msgpack request using [sample request code](https://github.com/shun-tak/msgpack-io).
+
+## Features
+
+- JSON and MessagePack available on request and response
+- Schema and Entity generator written by [Python Fabric](http://www.fabfile.org/)
+
 
 ## Environments
 
 - JDK 8
 - Maven 3.3
 - MySQL 5.6
+
 
 ## Quick Start
 
@@ -33,6 +39,7 @@ java -jar target/dropwitch-0.0.1-SNAPSHOT.jar server config/local.yml
 ```
 
 Then, open in browser: [localhost:8080](http://localhost:8080/)
+
 
 ## Sample API
 
