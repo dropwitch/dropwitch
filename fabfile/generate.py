@@ -19,6 +19,7 @@ SCHEMA_SQL_PATH = os.path.join(PROJECT_DIR, "src/main/resources/db/schema.sql")
 def schema():
     opts = "-d --compact -Q --ignore-table {0}.DATABASECHANGELOG --ignore-table {0}.DATABASECHANGELOGLOCK".format(env.mysql_database)
     local("mysqldump " + opts + " -u" + env.mysql_user + " -p " + env.mysql_database + " -r " + SCHEMA_SQL_PATH)
+    sed_inplace(SCHEMA_SQL_PATH, 'AUTO_INCREMENT=\d* ', '')
 
 
 @task
