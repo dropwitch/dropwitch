@@ -10,12 +10,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Builder
 @Data
 @XmlRootElement
-public class ResponseBody {
+public class ResponseBody<T> {
     private boolean result;
-    private Object data;
+    private T data;
 
     @JsonCreator
-    ResponseBody(@JsonProperty("result") boolean result, @JsonProperty("data") Object data) {
+    ResponseBody(@JsonProperty("result") boolean result, @JsonProperty("data") T data) {
         this.result = result;
         this.data = data;
     }
