@@ -3,8 +3,7 @@ package com.github.dropwitch;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.github.dropwitch.core.DropwitchMediaType;
-import com.github.dropwitch.entity.MasterCommon;
-import com.github.dropwitch.entity.User;
+import com.github.dropwitch.entity.EntityList;
 import com.github.dropwitch.entity.dao.MasterCommonDao;
 import com.github.dropwitch.entity.dao.UserDao;
 import com.github.dropwitch.resources.MasterResource;
@@ -12,6 +11,7 @@ import com.github.dropwitch.resources.UserResource;
 import io.dropwizard.Application;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
+import io.dropwizard.hibernate.SessionFactoryFactory;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -42,8 +42,7 @@ public class DropwitchApplication extends Application<DropwitchConfiguration> {
     }
 
     private final HibernateBundle<DropwitchConfiguration> hibernate = new HibernateBundle<DropwitchConfiguration>(
-            MasterCommon.class,
-            User.class
+            EntityList.get(), new SessionFactoryFactory()
     ) {
         @Override
         public DataSourceFactory getDataSourceFactory(DropwitchConfiguration configuration) {
