@@ -1,0 +1,15 @@
+package {{ env.java_package_entity }};
+
+import com.google.common.collect.ImmutableList;
+
+public class EntityList {
+    public static ImmutableList<Class<?>> get() {
+        return ImmutableList.of(
+                {% for table in tables %}
+                {{ table.class_name }}.class{% if not loop.last %},{% endif %}
+
+                {% endfor %}
+        );
+    }
+}
+

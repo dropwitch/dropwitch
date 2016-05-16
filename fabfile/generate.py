@@ -72,9 +72,18 @@ def _print_tables(tables):
 
 def _tables_to_files(tables):
     jinja_env = Environment(loader=FileSystemLoader(os.path.join(FAB_DIR, 'templates')), trim_blocks=True, lstrip_blocks=True)
+    entity_list = jinja_env.get_template("entity_list.j2")
     entity = jinja_env.get_template("entity.j2")
     master_entity = jinja_env.get_template("master_entity.j2")
 
+    # Generate EntityList.java
+    entity_list_path = os.path.join(PROJECT_DIR, env.entity_dir, 'EntityList.java')
+    entity_list.stream(
+        env=env,
+        tables=tables
+    ).dump(entity_list_path)
+
+    # Generate Entity.java
     for table in tables:
         entity_path = os.path.join(PROJECT_DIR, env.entity_dir, table.class_name + '.java')
         if re.search('^master_', table.get_name()):
