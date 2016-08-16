@@ -24,7 +24,7 @@
         <modifySql dbms="mysql">
             <regExpReplace replace="'2000-01-01 00:00:00.000000'" with="CURRENT_TIMESTAMP(6)"/>
             <regExpReplace replace="'2016-01-01 00:00:00.000000'" with="CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)"/>
-            <append value=" ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPRESSED" />
+            <append value=" ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" />
         </modifySql>
     </changeSet>
 
@@ -53,7 +53,7 @@
         <modifySql dbms="mysql">
             <regExpReplace replace="'2000-01-01 00:00:00.000000'" with="CURRENT_TIMESTAMP(6)"/>
             <regExpReplace replace="'2016-01-01 00:00:00.000000'" with="CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)"/>
-            <append value=" ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPRESSED" />
+            <append value=" ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" />
         </modifySql>
     </changeSet>
 </databaseChangeLog>
