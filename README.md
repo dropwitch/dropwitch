@@ -7,7 +7,7 @@ Dropwitch is powered by [Dropwizard](http://www.dropwizard.io/)
 ## Features
 
 - JSON and MessagePack available on request and response
-- Schema and Entity generator written by [Python Fabric](http://www.fabfile.org/)
+- Schema and Entity generator written by [Python Fabric](http://www.fabfile.org/) (see [Schema and Entity generator](https://github.com/dropwitch/dropwitch/blob/master/fabfile/README.md))
 
 
 ## Environments
