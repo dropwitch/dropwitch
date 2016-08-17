@@ -11,7 +11,7 @@ This generator is powered by [Python Fabric](http://www.fabfile.org/)
 
 ## Usage
 
-Edit `env` in fabfile/__init__.py:
+Edit `env` in fabfile/\__init\__.py:
 
 ```
 env.mysql_user = "your_mysql_user_name"
