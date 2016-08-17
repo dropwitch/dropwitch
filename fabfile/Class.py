@@ -59,10 +59,14 @@ class Column:
 
 
 def _convert_to_java_type(_type):
+    _boolean = re.compile('^tinyint', re.IGNORECASE)
     _integer = re.compile('^int', re.IGNORECASE)
     _long = re.compile('^bigint', re.IGNORECASE)
     _string = re.compile('^varchar|^text', re.IGNORECASE)
     _datetime = re.compile('^datetime')
+
+    if _boolean.match(_type):
+        return "boolean"
 
     if _integer.match(_type):
         return "Integer"
