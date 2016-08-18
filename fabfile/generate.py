@@ -32,7 +32,7 @@ def entities():
 def _parse_sql():
     # Regex patterns
     create_table = re.compile('^CREATE TABLE `(.*?)`', re.IGNORECASE)
-    column = re.compile('^\s*?`(?P<name>.*?)` (?P<type>\w.*?)[,\s]((?P<null>.*?NULL)[,\s])?(DEFAULT (?P<default>.*)[,\s])?((?P<auto_increment>AUTO_INCREMENT)[,\s])?', re.IGNORECASE)
+    column = re.compile('^\s*?`(?P<name>.*?)` (?P<type>\w.*?)[,\s]((?P<null>.*?NULL)[,\s])?(DEFAULT \'(?P<default>.*)\'[,\s])?((?P<auto_increment>AUTO_INCREMENT)[,\s])?', re.IGNORECASE)
     create_table_end = re.compile('^\)')
 
     tables = []

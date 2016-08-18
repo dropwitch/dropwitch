@@ -6,6 +6,7 @@ import re
 class Table:
     def __init__(self, name):
         self.name = name
+        self.camel_name = camel_case(name)
         self.class_name = pascal_case(name)
         self.columns = []
         self.no_default_columns = []
@@ -21,7 +22,7 @@ class Table:
 
     def add_column(self, column):
         self.columns.append(column)
-        if column.default == "" and not column.auto_increment:
+        if column.default == "" and not column.auto_increment and column.name != "created_at" and column.name != "updated_at":
             self.no_default_columns.append(column)
 
 
