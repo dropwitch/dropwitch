@@ -1,4 +1,4 @@
-package {{ env.java_package_entity_dao }};
+package {{ env.java_package_entity_dao_base }};
 
 import com.github.dropwitch.entity.{{ table.class_name }};
 import io.dropwizard.hibernate.AbstractDAO;
@@ -6,8 +6,8 @@ import org.hibernate.SessionFactory;
 
 import java.util.List;
 
-public class {{ table.class_name }}Dao extends AbstractDAO<{{ table.class_name }}> {
-    public {{ table.class_name }}Dao(SessionFactory factory) {
+public abstract class {{ table.class_name }}BaseDao extends AbstractDAO<{{ table.class_name }}> {
+    public {{ table.class_name }}BaseDao(SessionFactory factory) {
         super(factory);
     }
 

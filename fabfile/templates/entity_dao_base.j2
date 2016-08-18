@@ -1,0 +1,58 @@
+package {{ env.java_package_entity_dao_base }};
+
+import com.github.dropwitch.entity.{{ table.class_name }};
+import io.dropwizard.hibernate.AbstractDAO;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
+import org.joda.time.DateTime;
+
+import java.util.List;
+
+public abstract class {{ table.class_name }}BaseDao extends AbstractDAO<{{ table.class_name }}> {
+    public {{ table.class_name }}BaseDao(SessionFactory factory) {
+        super(factory);
+    }
+
+    public {{ table.class_name }} create({% for column in table.no_default_columns %}{{ column.field_type }} {{ column.name }}{% if not loop.last %}, {% endif %}{% endfor %}) {
+        {{ table.class_name }} {{ table.name }} = {{ table.class_name }}
+                .builder()
+                {% for column in table.columns %}
+                {% if column.name != "id" and column.name != "created_at" and column.name != "updated_at" %}
+                {% if column.default == "" %}
+                .{{ column.name }}({{ column.name }})
+                {% else %}
+                .{{ column.name }}({{ column.default }})
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+                .build();
+        currentSession().save({{ table.name }});
+        return {{ table.name }};
+    }
+
+    public void update({{ table.class_name }} {{ table.name }}) {
+        currentSession().update({{ table.name }});
+    }
+
+    public void updateByHql(String hql) {
+        currentSession().createQuery(hql).executeUpdate();
+    }
+
+    public void delete({{ table.class_name }} {{ table.name }}) {
+        currentSession().delete({{ table.name }});
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<{{ table.class_name }}> findAll() {
+        return criteria().list();
+    }
+    {% for column in table.columns %}
+
+    public {{ table.class_name }} findBy{{ column.pascal_name }}({{ column.field_type }} {{ column.field_name }}) {
+        return ({{ table.class_name }}) criteria()
+                .add(Restrictions.eq("{{ column.name }}", {{ column.field_name }}))
+                .uniqueResult();
+    }
+    {% endfor %}
+}
+

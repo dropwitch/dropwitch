@@ -8,6 +8,7 @@ class Table:
         self.name = name
         self.class_name = pascal_case(name)
         self.columns = []
+        self.no_default_columns = []
 
     def get_name(self):
         return self.name
@@ -20,12 +21,15 @@ class Table:
 
     def add_column(self, column):
         self.columns.append(column)
+        if column.default == "" and not column.auto_increment:
+            self.no_default_columns.append(column)
 
 
 class Column:
     def __init__(self, _name, _type, _null=None, _default=None, _auto_increment=None):
         self.name = _name
         self.field_name = camel_case(_name)
+        self.pascal_name = pascal_case(_name)
         self.type = _type
         self.field_type = _convert_to_java_type(_type)
         self.field_size = _filter_size(self.field_type, _type)

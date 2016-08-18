@@ -29,7 +29,7 @@ public class MasterResource {
         if (data == null) {
             data = MasterResponseData
                     .builder()
-                    .common(masterCommonDao.getAll())
+                    .common(masterCommonDao.findAll())
                     .build();
         }
         return ResponseBody

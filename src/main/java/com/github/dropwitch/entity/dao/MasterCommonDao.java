@@ -1,17 +1,10 @@
 package com.github.dropwitch.entity.dao;
 
-import com.github.dropwitch.entity.MasterCommon;
-import io.dropwizard.hibernate.AbstractDAO;
+import com.github.dropwitch.entity.dao.base.MasterCommonBaseDao;
 import org.hibernate.SessionFactory;
 
-import java.util.List;
-
-public class MasterCommonDao extends AbstractDAO<MasterCommon> {
+public class MasterCommonDao extends MasterCommonBaseDao {
     public MasterCommonDao(SessionFactory factory) {
         super(factory);
-    }
-
-    public List getAll() {
-        return criteria().list();
     }
 }

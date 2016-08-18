@@ -75,6 +75,8 @@ def _tables_to_files(tables):
     entity_list = jinja_env.get_template("entity_list.j2")
     entity = jinja_env.get_template("entity.j2")
     master_entity = jinja_env.get_template("master_entity.j2")
+    entity_dao = jinja_env.get_template("entity_dao_base.j2")
+    master_entity_dao = jinja_env.get_template("master_entity_dao_base.j2")
 
     # Generate EntityList.java
     entity_list_path = os.path.join(PROJECT_DIR, env.entity_dir, 'EntityList.java')
@@ -85,7 +87,7 @@ def _tables_to_files(tables):
 
     # Generate Entity.java
     for table in tables:
-        entity_path = os.path.join(PROJECT_DIR, env.entity_dir, table.class_name + '.java')
+        entity_path = os.path.join(PROJECT_DIR, env.entity_dir, table.get_class_name() + '.java')
         if re.search('^master_', table.get_name()):
             master_entity.stream(
                 env=env,
@@ -96,3 +98,17 @@ def _tables_to_files(tables):
                 env=env,
                 table=table
             ).dump(entity_path)
+
+    # Generate EntityDao.java
+    for table in tables:
+        entity_dao_path = os.path.join(PROJECT_DIR, env.entity_dao_base_dir, table.get_class_name() + 'BaseDao.java')
+        if re.search('^master_', table.get_name()):
+            master_entity_dao.stream(
+                env=env,
+                table=table
+            ).dump(entity_dao_path)
+        else:
+            entity_dao.stream(
+                env=env,
+                table=table
+            ).dump(entity_dao_path)
