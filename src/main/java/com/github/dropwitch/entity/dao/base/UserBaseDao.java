@@ -39,27 +39,31 @@ public abstract class UserBaseDao extends AbstractDAO<User> {
         return criteria().list();
     }
 
-    public User findById(Long id) {
-        return (User) criteria()
+    @SuppressWarnings("unchecked")
+    public List<User> findById(Long id) {
+        return criteria()
                 .add(Restrictions.eq("id", id))
-                .uniqueResult();
+                .list();
     }
 
-    public User findByName(String name) {
-        return (User) criteria()
+    @SuppressWarnings("unchecked")
+    public List<User> findByName(String name) {
+        return criteria()
                 .add(Restrictions.eq("name", name))
-                .uniqueResult();
+                .list();
     }
 
-    public User findByCreatedAt(DateTime createdAt) {
-        return (User) criteria()
+    @SuppressWarnings("unchecked")
+    public List<User> findByCreatedAt(DateTime createdAt) {
+        return criteria()
                 .add(Restrictions.eq("created_at", createdAt))
-                .uniqueResult();
+                .list();
     }
 
-    public User findByUpdatedAt(DateTime updatedAt) {
-        return (User) criteria()
+    @SuppressWarnings("unchecked")
+    public List<User> findByUpdatedAt(DateTime updatedAt) {
+        return criteria()
                 .add(Restrictions.eq("updated_at", updatedAt))
-                .uniqueResult();
+                .list();
     }
 }

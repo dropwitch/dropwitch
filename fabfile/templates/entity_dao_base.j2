@@ -52,10 +52,11 @@ public abstract class {{ table.class_name }}BaseDao extends AbstractDAO<{{ table
     }
     {% for column in table.columns %}
 
-    public {{ table.class_name }} findBy{{ column.pascal_name }}({{ column.field_type }} {{ column.field_name }}) {
-        return ({{ table.class_name }}) criteria()
+    @SuppressWarnings("unchecked")
+    public List<{{ table.class_name }}> findBy{{ column.pascal_name }}({{ column.field_type }} {{ column.field_name }}) {
+        return criteria()
                 .add(Restrictions.eq("{{ column.name }}", {{ column.field_name }}))
-                .uniqueResult();
+                .list();
     }
     {% endfor %}
 }
