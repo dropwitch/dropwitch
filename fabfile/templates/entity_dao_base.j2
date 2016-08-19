@@ -50,14 +50,27 @@ public abstract class {{ table.class_name }}BaseDao extends AbstractDAO<{{ table
     public List<{{ table.class_name }}> findAll() {
         return criteria().list();
     }
-    {% for column in table.columns %}
+    {% for index in table.indices %}
+    {% if index.type != "KEY" %}
+
+    public {{ table.class_name }} findBy{{ index.get_combined_pascal_column_names() }}({% for column in index.columns %}{{ column.field_type }} {{ column.field_name }}{% if not loop.last %}, {% endif %}{% endfor %}) {
+        return ({{ table.class_name }}) criteria()
+                {% for column in index.columns %}
+                .add(Restrictions.eq("{{ column.field_name }}", {{ column.field_name }}))
+                {% endfor %}
+                .uniqueResult();
+    }
+    {% else %}
 
     @SuppressWarnings("unchecked")
-    public List<{{ table.class_name }}> findBy{{ column.pascal_name }}({{ column.field_type }} {{ column.field_name }}) {
+    public List<{{ table.class_name }}> findAnyBy{{ index.get_combined_pascal_column_names() }}({% for column in index.columns %}{{ column.field_type }} {{ column.field_name }}{% if not loop.last %}, {% endif %}{% endfor %}) {
         return criteria()
+                {% for column in index.columns %}
                 .add(Restrictions.eq("{{ column.field_name }}", {{ column.field_name }}))
+                {% endfor %}
                 .list();
     }
+    {% endif %}
     {% endfor %}
 }
 

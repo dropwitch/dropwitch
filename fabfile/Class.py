@@ -10,6 +10,7 @@ class Table:
         self.class_name = pascal_case(name)
         self.columns = []
         self.no_default_columns = []
+        self.indices = []
 
     def get_name(self):
         return self.name
@@ -24,6 +25,46 @@ class Table:
         self.columns.append(column)
         if column.default == "" and not column.auto_increment and column.name != "created_at" and column.name != "updated_at":
             self.no_default_columns.append(column)
+
+    def get_indices(self):
+        return self.indices
+
+    def add_index(self, index):
+        self.indices.append(index)
+
+    def find_column_by_name(self, _column_name):
+        for column in self.columns:
+            if column.get_name() == _column_name:
+                return column
+        return None
+
+
+class Index:
+    def __init__(self, _type):
+        self.column_names = []
+        self.columns = []
+        self.type = _type
+
+    def get_column_names(self):
+        return self.column_names
+
+    def set_column_names(self, _names):
+        self.column_names = _names
+
+    def get_columns(self):
+        return self.columns
+
+    def add_column(self, _column):
+        self.columns.append(_column)
+
+    def get_type(self):
+        return self.type
+
+    def get_combined_pascal_column_names(self):
+        combined_name = ""
+        for column in self.columns:
+            combined_name += column.pascal_name
+        return combined_name
 
 
 class Column:

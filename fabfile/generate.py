@@ -20,6 +20,7 @@ def schema():
     opts = "-d --compact -Q --ignore-table {0}.DATABASECHANGELOG --ignore-table {0}.DATABASECHANGELOGLOCK".format(env.mysql_database)
     local("mysqldump " + opts + " -u" + env.mysql_user + " -p " + env.mysql_database + " -r " + SCHEMA_SQL_PATH)
     sed_inplace(SCHEMA_SQL_PATH, 'AUTO_INCREMENT=\d* ', '')
+    print green("schema.sql has been generated!")
 
 
 @task
@@ -27,28 +28,74 @@ def entities():
     tables = _parse_sql()
     _print_tables(tables)
     _tables_to_files(tables)
+    print green("Java files have been generated!")
 
 
 def _parse_sql():
-    # Regex patterns
+    # Compiled regex patterns
     create_table = re.compile('^CREATE TABLE `(.*?)`', re.IGNORECASE)
     column = re.compile('^\s*?`(?P<name>.*?)` (?P<type>\w.*?)[,\s]((?P<null>.*?NULL)[,\s])?(DEFAULT \'(?P<default>.*)\'[,\s])?((?P<auto_increment>AUTO_INCREMENT)[,\s])?', re.IGNORECASE)
+    primary_key = re.compile('^\s*?(?P<type>PRIMARY KEY) .*?\((?P<columns>(`\w.*?`,?)+.*?)\)[,]?$', re.IGNORECASE)
+    unique_key = re.compile('^\s*?(?P<type>UNIQUE KEY) .*?\((?P<columns>(`\w.*?`,?)+.*?)\)[,]?$', re.IGNORECASE)
+    key = re.compile('^\s*?(?P<type>KEY) .*?\((?P<columns>(`\w.*?`,?)+.*?)\)[,]?$', re.IGNORECASE)
+    column_of_key = re.compile('`(\w.*?)`', re.IGNORECASE)
     create_table_end = re.compile('^\)')
 
     tables = []
 
     with open(SCHEMA_SQL_PATH) as f:
         for line in f:
+            # parse table name
             matches = create_table.match(line)
             if matches:
                 table_name = matches.group(1)
                 tables.append(Table(table_name))
                 continue
 
+            # parse column name
             matches = column.match(line)
             if matches:
                 table = tables.pop()
                 table.add_column(Column(matches.group('name'), matches.group('type'), matches.group('null'), matches.group('default'), matches.group('auto_increment')))
+                tables.append(table)
+
+            # parse primary key
+            matches = primary_key.match(line)
+            if matches:
+                table = tables.pop()
+                i = Index(matches.group('type'))
+                column_names = column_of_key.findall(matches.group('columns'))
+                i.set_column_names(column_names)
+                # find and add Column object
+                for name in column_names:
+                    i.add_column(table.find_column_by_name(name))
+                table.add_index(i)
+                tables.append(table)
+
+            # parse unique keys
+            matches = unique_key.match(line)
+            if matches:
+                table = tables.pop()
+                i = Index(matches.group('type'))
+                column_names = column_of_key.findall(matches.group('columns'))
+                i.set_column_names(column_names)
+                # find and add Column object
+                for name in column_names:
+                    i.add_column(table.find_column_by_name(name))
+                table.add_index(i)
+                tables.append(table)
+
+            # parse keys
+            matches = key.match(line)
+            if matches:
+                table = tables.pop()
+                i = Index(matches.group('type'))
+                column_names = column_of_key.findall(matches.group('columns'))
+                i.set_column_names(column_names)
+                # find and add Column object
+                for name in column_names:
+                    i.add_column(table.find_column_by_name(name))
+                table.add_index(i)
                 tables.append(table)
 
             matches = create_table_end.match(line)
@@ -60,14 +107,21 @@ def _parse_sql():
 
 def _print_tables(tables):
     for table in tables:
-        print table.get_name()
+        print "+", table.get_name()
+        print "  + columns"
         for column in table.get_columns():
-            print "  ",
+            print "    -",
             print column.get_name(),
             print column.get_type(),
             print column.get_null(),
             print column.get_default(),
             print column.get_auto_increment()
+
+        print "  + indices"
+        for index in table.get_indices():
+            print "    *",
+            print index.get_type(),
+            print index.get_column_names()
 
 
 def _tables_to_files(tables):
