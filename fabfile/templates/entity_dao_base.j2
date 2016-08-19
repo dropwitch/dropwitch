@@ -55,7 +55,7 @@ public abstract class {{ table.class_name }}BaseDao extends AbstractDAO<{{ table
     @SuppressWarnings("unchecked")
     public List<{{ table.class_name }}> findBy{{ column.pascal_name }}({{ column.field_type }} {{ column.field_name }}) {
         return criteria()
-                .add(Restrictions.eq("{{ column.name }}", {{ column.field_name }}))
+                .add(Restrictions.eq("{{ column.field_name }}", {{ column.field_name }}))
                 .list();
     }
     {% endfor %}

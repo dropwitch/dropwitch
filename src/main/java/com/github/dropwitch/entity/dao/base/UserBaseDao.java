@@ -56,14 +56,14 @@ public abstract class UserBaseDao extends AbstractDAO<User> {
     @SuppressWarnings("unchecked")
     public List<User> findByCreatedAt(DateTime createdAt) {
         return criteria()
-                .add(Restrictions.eq("created_at", createdAt))
+                .add(Restrictions.eq("createdAt", createdAt))
                 .list();
     }
 
     @SuppressWarnings("unchecked")
     public List<User> findByUpdatedAt(DateTime updatedAt) {
         return criteria()
-                .add(Restrictions.eq("updated_at", updatedAt))
+                .add(Restrictions.eq("updatedAt", updatedAt))
                 .list();
     }
 }
